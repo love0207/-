@@ -13,7 +13,6 @@
         <el-col :span="8">
           <el-input
             placeholder="请输入内容"
-            class="input-with-select"
             v-model="obj.query"
             clearable
           >

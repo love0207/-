@@ -8,8 +8,51 @@
     </el-breadcrumb>
     <el-card style="margin-top: 20px">
       <el-button type="primary" @click="showaddrole = true">添加角色</el-button>
-      <el-table border style="margin-top: 10px" :data="roleList">
-        <el-table-column label="#" width="48px" type="expand">
+      <el-table border style="margin-top: 10px" :data="roleList" stripe>
+        <el-table-column type="expand">
+          <template v-slot="scope">
+            <!-- 一级 -->
+            <el-row
+              v-for="(item1, i1) in scope.row.children"
+              :key="item1.id"
+              :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']"
+            >
+              <el-col :span="5">
+                <el-tag closable @close="remove(scope.row, item1.id)">{{
+                  item1.authName
+                }}</el-tag>
+                <i class="el-icon-caret-right"></i>
+              </el-col>
+              <el-col :span="19">
+                <!-- 二级 -->
+                <el-row
+                  :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']"
+                  v-for="(item2, i2) in item1.children"
+                  :key="item2.id"
+                >
+                  <el-col :span="8">
+                    <el-tag
+                      type="success"
+                      closable
+                      @close="remove(scope.row, item2.id)"
+                      >{{ item2.authName }}</el-tag
+                    >
+                    <i class="el-icon-caret-right"></i>
+                  </el-col>
+                  <el-col :span="16">
+                    <el-tag
+                      type="warning"
+                      v-for="item3 in item2.children"
+                      :key="item3.id"
+                      closable
+                      @close="remove(scope.row, item3.id)"
+                      >{{ item3.authName }}</el-tag
+                    >
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </template>
         </el-table-column>
         <el-table-column label="#" type="index" width="48px"> </el-table-column>
         <el-table-column label="角色名称" prop="roleName"> </el-table-column>
@@ -98,7 +141,7 @@
 </template>
 
 <script>
-import { rolelist, delrole, rights, addrole, roleAuthorization, editrole } from '@/api/power'
+import { rolelist, delrole, rights, addrole, roleAuthorization, editrole, deleterolepower } from '@/api/power'
 export default {
 
   name: 'UserList',
@@ -192,6 +235,17 @@ export default {
       this.$message.success('角色编辑成功')
       this.showeditrole = false
       this.rolelist()
+    },
+    async remove (role, rightId) {
+      try {
+        await this.$confirm('此操作将永久删除该用户的权限, 是否继续?')
+        const res = await deleterolepower(role.id, rightId)
+        this.$message.success('删除成功')
+        role.children = res.data.data
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   computed: {},
@@ -201,5 +255,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='less'>
+.el-tag {
+  margin: 7px;
+}
+.bdtop {
+  border-top: 1px solid #eee;
+}
+.bdbottom {
+  border-bottom: 1px solid #eee;
+}
+.vcenter {
+  display: flex;
+  align-items: center;
+}
 </style>

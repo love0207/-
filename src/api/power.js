@@ -39,3 +39,9 @@ export const editrole = ({ id, roleName, roleDesc }) => request({
   method: 'PUT',
   data: { roleName, roleDesc }
 })
+
+// 删除角色指定权限
+export const deleterolepower = (roleId, rightId) => request({
+  url: `roles/${roleId}/rights/${rightId}`,
+  method: 'DELETE'
+})
