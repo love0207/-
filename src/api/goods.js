@@ -17,3 +17,15 @@ export const delgoods = (id) => request({
 export const getCateList = () => request({
   url: 'categories'
 })
+
+// 参数列表
+export const getParameterList = (id, sel) => request({
+  url: `categories/${id}/attributes`,
+  params: { sel }
+})
+// 添加商品
+export const addgoods = (data) => request({
+  url: 'goods',
+  method: 'post',
+  data
+})

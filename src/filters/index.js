@@ -1,4 +1,4 @@
 import dayjs from 'dayjs'
 export const dateformat = function (time) {
-  return dayjs(time).format('YYYY-MM-DD')
+  return dayjs(time * 1000).format('YYYY-MM-DD')
 }
