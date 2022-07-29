@@ -1,12 +1,10 @@
 <template>
-<div>
-    商品分类
-</div>
+  <div></div>
 </template>
 
 <script>
 export default {
-  created () {},
+  created () { },
   data () {
     return {}
   },
@@ -19,5 +17,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

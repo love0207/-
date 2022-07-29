@@ -16,6 +16,7 @@ export const delgoods = (id) => request({
 // 获取商品分类列表
 export const getCateList = () => request({
   url: 'categories'
+
 })
 
 // 参数列表
