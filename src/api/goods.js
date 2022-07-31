@@ -30,3 +30,30 @@ export const addgoods = (data) => request({
   method: 'post',
   data
 })
+
+// 添加动态或静态属性
+export const addParams = (id, name, sel) => request({
+  url: `categories/${id}/attributes`,
+  method: 'POST',
+  data: { attr_name: name, attr_sel: sel }
+})
+// 根据id查询参数
+export const editParams = (id, attrId, attrsel) => request({
+  url: `categories/${id}/attributes/${attrId}`,
+  params: {
+    attr_sel: attrsel
+  }
+})
+// 编辑提交参数
+export const submitEdit = (id, attrId, name, attrsel, vals) => request({
+  url: `categories/${id}/attributes/${attrId}`,
+  method: 'PUT',
+  data: {
+    attr_name: name, attr_sel: attrsel, attr_vals: vals
+  }
+})
+// 删除参数
+export const deleteParams = (id, attrid) => request({
+  url: `categories/${id}/attributes/${attrid}`,
+  method: 'DELETE'
+})
