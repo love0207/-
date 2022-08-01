@@ -57,3 +57,11 @@ export const deleteParams = (id, attrid) => request({
   url: `categories/${id}/attributes/${attrid}`,
   method: 'DELETE'
 })
+
+// 商品分类数据列表
+export const classifyList = ({ type, pagenum, pagesize }) => request({
+  url: 'categories',
+  params: {
+    type, pagenum, pagesize
+  }
+})

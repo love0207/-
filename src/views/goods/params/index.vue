@@ -96,7 +96,36 @@
             >添加属性</el-button
           >
           <el-table :data="onlyList" border style="margin-top: 20px">
-            <el-table-column type="expand"></el-table-column>
+            <el-table-column type="expand">
+              <template v-slot="scope">
+                <!-- 标签 -->
+                <el-tag
+                  v-for="(item, id) in scope.row.attr_vals"
+                  :key="id"
+                  closable
+                  @close="handleclose(id, scope.row)"
+                  >{{ item }}</el-tag
+                >
+                <!-- 添加标签 -->
+                <el-input
+                  class="input-new-tag"
+                  v-if="scope.row.inputVisible"
+                  v-model="scope.row.inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                  @blur="handleInputConfirm(scope.row)"
+                >
+                </el-input>
+                <el-button
+                  v-else
+                  class="button-new-tag"
+                  size="small"
+                  @click="scope.row.inputVisible = true"
+                  >+ New Tag</el-button
+                >
+              </template>
+            </el-table-column>
             <el-table-column type="index" label="#"></el-table-column>
             <el-table-column
               prop="attr_name"
