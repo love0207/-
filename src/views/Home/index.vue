@@ -35,7 +35,7 @@
             :key="index"
           >
             <template slot="title">
-              <span><i class="el-icon-menu"></i>{{ item.authName }}</span>
+              <i class="el-icon-menu"></i> <span slot="title">{{ item.authName }}</span>
             </template>
             <el-menu-item-group>
               <el-menu-item

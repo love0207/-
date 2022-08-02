@@ -65,3 +65,10 @@ export const classifyList = ({ type, pagenum, pagesize }) => request({
     type, pagenum, pagesize
   }
 })
+// 商品2级分类数据列表
+export const classList = () => request({
+  url: 'categories',
+  params: {
+    type: 2
+  }
+})

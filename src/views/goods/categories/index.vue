@@ -66,11 +66,25 @@
     </el-card>
     <!-- 添加分类 -->
     <el-dialog title="添加商品分类" :visible.sync="showaddsort">
-      <el-form label-width="80px" ref="addform" :model="addform" >
-        <el-form-item label="分类名称">
+      <el-form
+        label-width="80px"
+        ref="addform"
+        :model="addform"
+        :rules="addformRules"
+      >
+        <el-form-item label="分类名称" prop="cat_name">
           <el-input v-model="addform.cat_name"> </el-input>
         </el-form-item>
-        <el-form-item label="父级分类"> </el-form-item>
+        <el-form-item label="父级分类">
+          <el-cascader
+            :options="options"
+            clearable
+            :props="props"
+            v-model="select"
+            expand-trigger="hover"
+            change-on-select
+          ></el-cascader>
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button>取消</el-button>
@@ -81,7 +95,7 @@
 </template>
 
 <script>
-import { classifyList } from '@/api/goods'
+import { classifyList, classList } from '@/api/goods'
 export default {
   name: 'categories',
   created () {
@@ -99,9 +113,21 @@ export default {
       showaddsort: false,
       addform: {
         cat_name: '',
-        cat_pid: '',
-        cat_level: ''
-      }
+        cat_pid: 0,
+        cat_level: 0
+      },
+      addformRules: {
+        cat_name: [
+          { required: true, message: '请输入分类名称', tigger: 'blur' }
+        ]
+      },
+      options: [],
+      props: {
+        value: 'cat_id',
+        label: 'cat_name',
+        children: 'children'
+      },
+      select: []
     }
   },
   methods: {
@@ -119,7 +145,9 @@ export default {
       this.params.pagenum = val
       this.getclassifyList()
     },
-    showaddCate () {
+    async showaddCate () {
+      const res = await classList()
+      this.options = res.data.data
       this.showaddsort = true
     }
   },
